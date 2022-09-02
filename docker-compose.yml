@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+ app:
+  build: ./FB_Scrapping/
+  image: tic
+  command: uvicorn src.main:app --host 0.0.0.0 --port 8000
+  depends_on: 
+   - mysql
+
+ mysql:
+  image: mysql:latest
+  build: ./MySQL/ 
+  restart: always
+  environment:
+   MYSQL_DATABASE: 'db'
+   MYSQL_ROOT_PASSWORD: 'root'
+  ports:
+   - '3307:3306'
+  volumes: 
+   - ./SQL:/docker-entrypoint-initdb.d
